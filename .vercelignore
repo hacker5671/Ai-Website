@@ -1,0 +1,9 @@
+cat > .vercelignore << 'EOF'
+node_modules
+.next
+.env
+dist
+build
+prisma/dev.db
+*.log
+EOF
