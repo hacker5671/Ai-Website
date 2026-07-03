@@ -1,0 +1,16 @@
+import Link from "next/link";
+import Editor from "@/components/Editor";
+
+export default function Page() {
+  return (
+    <main>
+      <header className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">AI Video Editor — MVP</h1>
+        <nav className="space-x-4">
+          <Link href="/auth/signin">Sign in</Link>
+        </nav>
+      </header>
+      <Editor />
+    </main>
+  );
+}
