@@ -1,0 +1,53 @@
+# AI Video Editor — MVP
+
+This repository is a starter MVP for a browser-based AI video editor (Next.js + TypeScript) with:
+
+- NextAuth (Credentials) + Prisma (SQLite) for authentication
+- Text → Video integration using Replicate (serverless API route proxy)
+- Basic editor UI: asset import, canvas preview placeholder, timeline/exports stub
+- In-browser MP4 export using @ffmpeg/ffmpeg (ffmpeg.wasm)
+
+Important: Secrets are NOT committed. You must add the following environment variables to Vercel (or .env.local for local development):
+
+- REPLICATE_API_TOKEN — your Replicate API key
+- NEXTAUTH_SECRET — a long random string (eg `openssl rand -hex 32`)
+- NEXTAUTH_URL — your site URL (eg https://your-site.vercel.app)
+- DATABASE_URL — optional (defaults to SQLite `file:./dev.db`)
+- SEED_EMAIL, SEED_PASSWORD — used to seed a demo user locally (optional)
+
+Quick local setup
+
+1. Install dependencies:
+
+   npm install
+
+2. Generate Prisma client and run migration:
+
+   npx prisma generate
+   npx prisma migrate dev --name init
+
+3. Seed a demo user (locally):
+
+   export SEED_EMAIL=your-email@example.com
+   export SEED_PASSWORD=yourpassword
+   npx ts-node prisma/seed.ts
+
+4. Start dev server
+
+   npm run dev
+
+Vercel deployment
+
+- Create a Vercel project and connect this repository.
+- Add the required environment variables in Vercel settings: REPLICATE_API_TOKEN, NEXTAUTH_SECRET, NEXTAUTH_URL
+- Deploy. If you use an external DB in production, set DATABASE_URL.
+
+Notes
+
+- The Replicate API route is a simple proxy: app/api/replicate/generate/route.ts. The example uses a generic POST to /v1/predictions. For production, adapt the payload/version to the exact Replicate model you want to use.
+- FFmpeg in the browser is heavy; consider server-side rendering for large exports.
+- This project is a scaffold/MVP. Many features (real timeline editing, keyframes, layer compositing, asset storage, robust export, progress tracking) are intentionally left as next steps.
+
+Security
+
+- Do not commit API keys. Use Vercel environment variables.
